@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mérida Living — Propuesta de rediseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<script>
+  // Tweak defaults — host can rewrite this JSON when user adjusts the panel.
+  window.__TWEAK_DEFAULTS__ = /*EDITMODE-BEGIN*/{
+    "palette": "limestone",
+    "dark": false,
+    "type": "editorial"
+  }/*EDITMODE-END*/;
+</script>
+
+<style>
+  :root {
+    /* Limestone palette — default */
+    --bg: #F5EFE4;
+    --bg-elev: #FBF7EE;
+    --surface: #FFFFFF;
+    --ink: #2A2520;
+    --ink-2: #4A423B;
+    --ink-3: #7A7269;
+    --line: #E4DCC9;
+    --line-2: #D6CBB3;
+    --accent: #B85A3E;       /* terracota */
+    --accent-deep: #8E3F28;
+    --accent-2: #5C6B3D;     /* verde olivo */
+    --accent-3: #C6A35A;     /* ocre */
+    --highlight: #F0E5CC;
+
+    --serif: "Cormorant Garamond", "Fraunces", Georgia, serif;
+    --sans: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 18px;
+    --shadow-1: 0 1px 2px rgba(40,30,20,.04), 0 8px 24px rgba(40,30,20,.06);
+    --shadow-2: 0 2px 6px rgba(40,30,20,.06), 0 24px 60px rgba(40,30,20,.10);
+  }
+
+  /* Palette variants */
+  [data-palette="agave"] {
+    --bg: #ECEEE7;
+    --bg-elev: #F4F5EF;
+    --surface: #FFFFFF;
+    --ink: #1F2A24;
+    --ink-2: #3A4842;
+    --ink-3: #6A766F;
+    --line: #DCDFD3;
+    --line-2: #C8CDBE;
+    --accent: #3D7A6A;
+    --accent-deep: #285548;
+    --accent-2: #B86A3E;
+    --accent-3: #C6A35A;
+    --highlight: #D8E2D2;
+  }
+  [data-palette="jungle"] {
+    --bg: #ECECE2;
+    --bg-elev: #F3F2E7;
+    --surface: #FFFFFF;
+    --ink: #1A1F18;
+    --ink-2: #2F3A2A;
+    --ink-3: #6A7264;
+    --line: #DAD8C7;
+    --line-2: #C2BFA5;
+    --accent: #2F5A2C;
+    --accent-deep: #1E3D1C;
+    --accent-2: #B85A3E;
+    --accent-3: #C6A35A;
+    --highlight: #DDE2C8;
+  }
+  [data-palette="sunset"] {
+    --bg: #F7E9DC;
+    --bg-elev: #FCF1E5;
+    --surface: #FFFFFF;
+    --ink: #2A1A12;
+    --ink-2: #4D2F1F;
+    --ink-3: #875C45;
+    --line: #ECD6BE;
+    --line-2: #DDBE9F;
+    --accent: #C24A2A;
+    --accent-deep: #8C2E16;
+    --accent-2: #6B4424;
+    --accent-3: #D9A24A;
+    --highlight: #F2D6B7;
+  }
+
+  /* Dark mode overrides — apply on top of any palette */
+  [data-dark="true"] {
+    --bg: #1A1612;
+    --bg-elev: #221C16;
+    --surface: #2A231C;
+    --ink: #F1E9D9;
+    --ink-2: #C8BEAB;
+    --ink-3: #8A8273;
+    --line: #3A302A;
+    --line-2: #4B4138;
+    --highlight: #3A2F23;
+  }
+
+  /* Type variants */
+  [data-type="editorial"] { --serif: "Cormorant Garamond", Georgia, serif; --sans: "Inter", system-ui, sans-serif; }
+  [data-type="classic"]   { --serif: "Fraunces", Georgia, serif; --sans: "Inter", system-ui, sans-serif; }
+  [data-type="modern"]    { --serif: "Plus Jakarta Sans", system-ui, sans-serif; --sans: "Plus Jakarta Sans", system-ui, sans-serif; }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .serif { font-family: var(--serif); font-weight: 500; letter-spacing: -0.01em; }
+  .mono  { font-family: var(--mono); }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  .hairline { height: 1px; background: var(--line); }
+
+  /* Image placeholder — striped, with mono caption (no AI-slop SVG illustrations) */
+  .ph {
+    position: relative;
+    background-color: var(--highlight);
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0 14px,
+      rgba(0,0,0,.04) 14px 15px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-2);
+    overflow: hidden;
+  }
+  .ph::after {
+    content: attr(data-label);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    background: rgba(255,255,255,.7);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink-2);
+  }
+  [data-dark="true"] .ph::after { background: rgba(0,0,0,.35); color: var(--ink); }
+
+  /* ——— top bar ——— */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    background: color-mix(in oklab, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .brand-mark {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; /* arched */
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .brand-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+  .nav {
+    display: flex; gap: 28px; align-items: center;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .nav a { transition: color .15s; }
+  .nav a:hover { color: var(--accent); }
+  .nav .active { color: var(--ink); font-weight: 500; }
+  .top-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 13.5px;
+    font-weight: 500;
+    border: none;
+    transition: transform .15s, background .15s;
+  }
+  .top-cta:hover { transform: translateY(-1px); background: var(--accent); }
+  .lang {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
+    color: var(--ink-3); display: flex; gap: 8px; align-items: center;
+  }
+  .lang span.on { color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .nav { display: none; }
+  }
+
+  #app { display: block; }
+</style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="data.jsx"></script>
+  <script type="text/babel" src="sections-hero.jsx"></script>
+  <script type="text/babel" src="sections-properties.jsx"></script>
+  <script type="text/babel" src="sections-social.jsx"></script>
+  <script type="text/babel" src="sections-footer.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>

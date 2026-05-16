@@ -1,0 +1,185 @@
+/* Mérida Living — base tokens + global components.
+   Shared across index.html and property.html. */
+
+:root {
+  /* Brand palette — Merida Living */
+  --bg: #FFFFFF;
+  --bg-elev: #F4F7F7;
+  --bg-soft: #FAFBFB;
+  --surface: #FFFFFF;
+  --ink: #2A2D33;
+  --ink-2: #5A6068;
+  --ink-3: #8A8F96;
+  --line: #E5E8EA;
+  --line-2: #CCD2D5;
+
+  /* Brand facet colors — from the hexagon */
+  --teal: #3FBBB0;
+  --teal-deep: #2D9B91;
+  --teal-soft: #E8F6F4;
+  --purple: #5B4B95;
+  --purple-light: #7E72A8;
+  --orange: #E8A33D;
+  --red: #D34245;
+  --green: #3DA77F;
+
+  /* Semantic */
+  --accent: var(--teal);
+  --accent-deep: var(--teal-deep);
+  --accent-soft: var(--teal-soft);
+  --highlight: #F4F7F7;
+
+  --display: "Quicksand", "Nunito", system-ui, sans-serif;
+  --sans: "Inter", system-ui, sans-serif;
+  --serif-italic: "Cormorant Garamond", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 18px;
+  --r-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(20,30,40,.04), 0 8px 24px rgba(20,30,40,.05);
+  --shadow-2: 0 2px 6px rgba(20,30,40,.05), 0 24px 60px rgba(20,30,40,.08);
+}
+
+[data-accent="purple"] { --accent: var(--purple); --accent-deep: #41336E; --accent-soft: #EFEDF5; }
+[data-accent="orange"] { --accent: var(--orange); --accent-deep: #C0851E; --accent-soft: #FBF1DD; }
+[data-accent="red"]    { --accent: var(--red);    --accent-deep: #A4313A; --accent-soft: #FAE3E4; }
+[data-accent="green"]  { --accent: var(--green);  --accent-deep: #2B8665; --accent-soft: #E4F2EC; }
+
+[data-type="brand"]    { --display: "Quicksand", system-ui, sans-serif; --sans: "Inter", system-ui, sans-serif; }
+[data-type="classic"]  { --display: "Cormorant Garamond", Georgia, serif; --sans: "Inter", system-ui, sans-serif; }
+[data-type="modern"]   { --display: "Plus Jakarta Sans", system-ui, sans-serif; --sans: "Plus Jakarta Sans", system-ui, sans-serif; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+.ital, h1 em, h2 em, h3 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: -0.005em;
+}
+[data-type="modern"] .ital,
+[data-type="modern"] h1 em,
+[data-type="modern"] h2 em,
+[data-type="modern"] h3 em { font-family: var(--display); font-style: normal; font-weight: 600; }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.container-wide { max-width: 1440px; margin: 0 auto; padding: 0 32px; }
+.hairline { height: 1px; background: var(--line); }
+
+/* Image placeholder fallback (used for non-photo decorative areas) */
+.ph {
+  position: relative;
+  background-color: #EDF1F2;
+  background-image: repeating-linear-gradient(135deg, transparent 0 14px, rgba(0,0,0,.025) 14px 15px);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-2);
+  overflow: hidden;
+}
+.ph::after {
+  content: attr(data-label);
+  font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 6px 10px;
+  background: rgba(255,255,255,.85);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink-2);
+}
+
+/* image-slot — match brand styling */
+image-slot {
+  --is-radius: 14px;
+}
+image-slot::part(frame) {
+  background: #EDF1F2;
+}
+
+/* ——— top bar ——— */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(14px);
+  background: rgba(255,255,255,0.88);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 0; gap: 32px;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark svg { display: block; }
+.brand-name {
+  font-family: var(--display);
+  font-size: 22px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--ink); line-height: 1;
+}
+.brand-sub {
+  font-family: var(--display);
+  font-size: 11.5px; letter-spacing: 0.18em;
+  color: var(--ink-3); margin-top: 4px;
+  font-weight: 300; text-transform: lowercase;
+}
+.nav {
+  display: flex; gap: 26px; align-items: center;
+  font-size: 14px; color: var(--ink-2); font-weight: 500;
+}
+.nav a { transition: color .15s; }
+.nav a:hover { color: var(--accent); }
+.nav .active { color: var(--accent); }
+
+.btn-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: white;
+  font-size: 13.5px; font-weight: 500;
+  border: none;
+  transition: all .15s;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+.btn-pill:hover { background: var(--accent-deep); transform: translateY(-1px); }
+.btn-pill.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line-2);
+}
+.btn-pill.ghost:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.btn-pill.dark { background: var(--ink); }
+.btn-pill.dark:hover { background: var(--accent); }
+.btn-pill.lg { padding: 14px 28px; font-size: 14.5px; }
+
+.lang {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
+  color: var(--ink-3); display: flex; gap: 8px; align-items: center;
+}
+.lang span.on { color: var(--ink); }
+
+@media (max-width: 960px) {
+  .nav { display: none; }
+}
