@@ -1,120 +1,39 @@
 // CTA final + Footer + WhatsApp floating
 
 function FinalCTA() {
+  const { copy } = useMLLang();
+  const links = window.ML_LINKS || {};
   return (
     <section style={{padding:'120px 0'}} data-screen-label="CTA final">
-      <style>{`
-        .cta-wrap {
-          position: relative;
-          border-radius: 28px;
-          overflow: hidden;
-          background: var(--accent);
-          color: #FFF8EE;
-          padding: 96px 64px;
-          display: grid;
-          grid-template-columns: 1.4fr 1fr;
-          gap: 64px;
-          align-items: center;
-        }
-        @media (max-width: 900px) {
-          .cta-wrap { grid-template-columns: 1fr; padding: 56px 28px; }
-        }
-        .cta-eye {
-          font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
-          text-transform: uppercase; color: #F2D9C0; margin-bottom: 24px;
-        }
-        .cta-h {
-          font-family: var(--display);
-          font-weight: 300;
-          font-size: clamp(40px, 6vw, 88px);
-          line-height: 0.98;
-          letter-spacing: -0.02em;
-          color: #FFF8EE;
-          margin: 0;
-          text-wrap: balance;
-        }
-        .cta-h em { font-style: italic; color: #F6E2C7; }
-        .cta-lede { color: #F2D9C0; font-size: 17px; line-height: 1.55; margin-top: 24px; max-width: 420px; }
-
-        .cta-card {
-          background: #FFF8EE;
-          color: var(--ink);
-          border-radius: 20px;
-          padding: 28px;
-        }
-        .cta-card label {
-          font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
-          text-transform: uppercase; color: var(--ink-3);
-          display: block; margin-top: 18px; margin-bottom: 8px;
-        }
-        .cta-card label:first-child { margin-top: 0; }
-        .cta-input {
-          width: 100%;
-          border: 0;
-          border-bottom: 1px solid var(--line-2);
-          padding: 10px 0;
-          background: transparent;
-          font-size: 15px; color: var(--ink);
-          font-family: inherit;
-          outline: none;
-        }
-        .cta-input:focus { border-bottom-color: var(--accent); }
-        .cta-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-        .cta-chip {
-          padding: 7px 12px; border: 1px solid var(--line-2);
-          border-radius: 999px; font-size: 12px; color: var(--ink-2);
-          background: transparent;
-        }
-        .cta-chip.is-on { background: var(--accent); color: white; border-color: var(--accent); }
-        .cta-submit {
-          margin-top: 22px; width: 100%;
-          padding: 16px;
-          background: var(--ink); color: var(--bg);
-          border: 0; border-radius: 12px;
-          font-size: 14.5px; font-weight: 500;
-          letter-spacing: 0.01em;
-        }
-        .cta-fine {
-          font-size: 11px; color: var(--ink-3);
-          margin-top: 14px; line-height: 1.5;
-        }
-      `}</style>
       <div className="container">
         <div className="cta-wrap">
           <div>
-            <div className="cta-eye">07 — Empecemos por escuchar</div>
-            <h2 className="cta-h">
-              Cuéntanos qué<br/>
-              casa <em>buscas</em>.<br/>
-              Te llamamos en<br/>
-              <em>24 horas</em>.
-            </h2>
-            <p className="cta-lede">
-              Sin formulario interminable. Cinco campos, una llamada de 20 minutos y una primera selección de casas en tu correo el mismo día.
-            </p>
+            <div className="cta-eye">{copy.ctaEye}</div>
+            <h2 className="cta-h">{copy.ctaTitle}</h2>
+            <p className="cta-lede">{copy.ctaLede}</p>
           </div>
-          <div className="cta-card">
-            <label>Nombre</label>
-            <input className="cta-input" placeholder="Tu nombre completo" />
-            <label>Email o WhatsApp</label>
-            <input className="cta-input" placeholder="hola@correo.com  · +52" />
-            <label>Estoy buscando</label>
+          <form className="cta-card" onSubmit={(e) => { e.preventDefault(); window.open(links.whatsappVisit || links.whatsapp || "#", "_blank", "noopener,noreferrer"); }}>
+            <label>{copy.labelName}</label>
+            <input className="cta-input" name="name" placeholder={copy.placeName} autoComplete="name" />
+            <label>{copy.labelContact}</label>
+            <input className="cta-input" name="contact" placeholder={copy.placeContact} autoComplete="email" />
+            <label>{copy.labelLooking}</label>
             <div className="cta-row">
-              <span className="cta-chip is-on">Comprar</span>
-              <span className="cta-chip">Vender</span>
-              <span className="cta-chip">Rentar</span>
-              <span className="cta-chip">Asesoría</span>
+              <span className="cta-chip is-on">{copy.chipBuy}</span>
+              <span className="cta-chip">{copy.chipSell}</span>
+              <span className="cta-chip">{copy.chipRent}</span>
+              <span className="cta-chip">{copy.chipAdvice}</span>
             </div>
-            <label>Presupuesto aproximado</label>
+            <label>{copy.labelBudget}</label>
             <div className="cta-row">
               <span className="cta-chip">&lt; 200k</span>
               <span className="cta-chip is-on">200k – 500k</span>
               <span className="cta-chip">500k – 1M</span>
               <span className="cta-chip">1M +</span>
             </div>
-            <button className="cta-submit">Quiero que me llamen →</button>
-            <div className="cta-fine">Respondemos en horario CDMX (GMT-6). No compartimos tus datos con terceros.</div>
-          </div>
+            <button className="cta-submit" type="submit">{copy.ctaSubmit}</button>
+            <div className="cta-fine">{copy.ctaFine}</div>
+          </form>
         </div>
       </div>
     </section>
@@ -122,114 +41,50 @@ function FinalCTA() {
 }
 
 function Footer() {
+  const { copy } = useMLLang();
+  const links = window.ML_LINKS || {};
+  const exploreLinks = [links.properties, links.properties, links.centro, links.properties, links.properties];
+  const serviceLinks = [links.whatsappVisit, links.whatsappVisit, links.rentals, links.whatsappVisit, links.whatsappVisit];
+  const contactLinks = [links.email, links.whatsapp, links.whatsappVisit, links.blog, links.email];
   return (
     <footer data-screen-label="Footer">
-      <style>{`
-        footer { border-top: 1px solid var(--line); padding: 64px 0 40px; background: var(--bg-elev); }
-        .foot-grid {
-          display: grid;
-          grid-template-columns: 1.4fr 1fr 1fr 1fr;
-          gap: 48px;
-          margin-bottom: 48px;
-        }
-        @media (max-width: 820px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 480px) { .foot-grid { grid-template-columns: 1fr; } }
-        .foot-brand .brand-name { font-size: 24px; }
-        .foot-tag {
-          margin-top: 18px; color: var(--ink-2); font-size: 14px;
-          max-width: 320px; line-height: 1.55;
-        }
-        .foot-h {
-          font-family: var(--mono); font-size: 10.5px;
-          letter-spacing: 0.2em; text-transform: uppercase;
-          color: var(--ink-3); margin-bottom: 18px;
-        }
-        .foot-list { display: flex; flex-direction: column; gap: 12px; }
-        .foot-list a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
-        .foot-list a:hover { color: var(--accent); }
-        .foot-bottom {
-          padding-top: 32px;
-          border-top: 1px solid var(--line);
-          display: flex; justify-content: space-between; align-items: center;
-          flex-wrap: wrap; gap: 16px;
-          font-family: var(--mono); font-size: 10.5px;
-          letter-spacing: 0.14em; text-transform: uppercase;
-          color: var(--ink-3);
-        }
-        .foot-bottom .legal { display: flex; gap: 20px; }
-        .foot-soc {
-          display: flex; gap: 12px;
-        }
-        .foot-soc a {
-          width: 36px; height: 36px; border-radius: 50%;
-          border: 1px solid var(--line);
-          display: grid; place-items: center;
-          color: var(--ink-2);
-        }
-        .foot-soc a:hover { border-color: var(--accent); color: var(--accent); }
-        .big-word {
-          font-family: var(--serif-italic);
-          font-size: clamp(80px, 18vw, 240px);
-          line-height: 0.85;
-          letter-spacing: -0.04em;
-          color: var(--ink);
-          opacity: 0.08;
-          text-align: center;
-          margin: 48px 0 0;
-          font-style: italic;
-          pointer-events: none;
-          user-select: none;
-        }
-      `}</style>
       <div className="container">
         <div className="foot-grid">
           <div className="foot-brand">
             <BrandLockup size={44} sub="Beyond Real Estate" />
-            <p className="foot-tag">Calle 47 #482 entre 54 y 56, Centro, Mérida, Yucatán. Atendemos de lunes a sábado, 9 a 19 h.</p>
+            <p className="foot-tag">{copy.footAddress}</p>
             <div className="foot-soc" style={{marginTop:24}}>
-              <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="1.5" width="11" height="11" rx="3" stroke="currentColor"/><circle cx="7" cy="7" r="2.5" stroke="currentColor"/><circle cx="10" cy="4" r="0.6" fill="currentColor"/></svg></a>
-              <a href="#" aria-label="WhatsApp"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12l1-3a5 5 0 1 1 2 2l-3 1z" stroke="currentColor" strokeLinejoin="round"/></svg></a>
-              <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="3" width="11" height="8" rx="2" stroke="currentColor"/><path d="M6 5.5l3 1.5-3 1.5z" fill="currentColor"/></svg></a>
+              <a href={links.instagram || "#"} target="_blank" rel="noreferrer" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="1.5" width="11" height="11" rx="3" stroke="currentColor"/><circle cx="7" cy="7" r="2.5" stroke="currentColor"/><circle cx="10" cy="4" r="0.6" fill="currentColor"/></svg></a>
+              <a href={links.whatsapp || "#"} target="_blank" rel="noreferrer" aria-label="WhatsApp"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12l1-3a5 5 0 1 1 2 2l-3 1z" stroke="currentColor" strokeLinejoin="round"/></svg></a>
+              <a href={links.youtube || "#"} target="_blank" rel="noreferrer" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="3" width="11" height="8" rx="2" stroke="currentColor"/><path d="M6 5.5l3 1.5-3 1.5z" fill="currentColor"/></svg></a>
             </div>
           </div>
           <div>
-            <div className="foot-h">Explora</div>
+            <div className="foot-h">{copy.footExplore}</div>
             <div className="foot-list">
-              <a href="#">Propiedades</a>
-              <a href="#">Haciendas</a>
-              <a href="#">Barrios</a>
-              <a href="#">Pre-ventas</a>
-              <a href="#">Terrenos</a>
+              {copy.footExploreLinks.map((l, i) => <a key={l} href={exploreLinks[i] || "index.html"}>{l}</a>)}
             </div>
           </div>
           <div>
-            <div className="foot-h">Servicios</div>
+            <div className="foot-h">{copy.footServices}</div>
             <div className="foot-list">
-              <a href="#">Compra asistida</a>
-              <a href="#">Venta curada</a>
-              <a href="#">Renta vacacional</a>
-              <a href="#">Restauración</a>
-              <a href="#">Fideicomiso</a>
+              {copy.footServicesLinks.map((l, i) => <a key={l} href={serviceLinks[i] || links.whatsappVisit || "#"}>{l}</a>)}
             </div>
           </div>
           <div>
-            <div className="foot-h">Contacto</div>
+            <div className="foot-h">{copy.footContact}</div>
             <div className="foot-list">
-              <a href="#">hola@meridaliving.mx</a>
-              <a href="#">+52 999 000 0000</a>
-              <a href="#">Agenda una visita</a>
-              <a href="#">Boletín mensual</a>
-              <a href="#">Carreras</a>
+              {copy.footContactLinks.map((l, i) => <a key={l} href={contactLinks[i] || links.email || "#"}>{l}</a>)}
             </div>
           </div>
         </div>
         <div className="big-word">Mérida</div>
         <div className="foot-bottom">
-          <div>© 2026 Mérida Living · AMPI registro 4178</div>
+          <div>{copy.footCopyright}</div>
           <div className="legal">
-            <a href="#">Privacidad</a>
-            <a href="#">Términos</a>
-            <a href="#">Aviso legal</a>
+            <a href={links.site || "#"}>{copy.footPrivacy}</a>
+            <a href={links.site || "#"}>{copy.footTerms}</a>
+            <a href={links.site || "#"}>{copy.footLegal}</a>
           </div>
         </div>
       </div>
@@ -238,8 +93,9 @@ function Footer() {
 }
 
 function WhatsFloat() {
+  const links = window.ML_LINKS || {};
   return (
-    <a href="#" style={{
+    <a href={links.whatsapp || "#"} target="_blank" rel="noreferrer" style={{
       position:'fixed', right: 24, bottom: 24, zIndex: 60,
       width: 56, height: 56, borderRadius: '50%',
       background: '#25D366', color: 'white',

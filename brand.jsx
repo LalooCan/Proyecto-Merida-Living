@@ -1,27 +1,25 @@
-// BrandMark — the actual hexagonal multi-facet logo from Merida Living.
-// Flat-top hexagon, 6 triangles meeting at center.
+// Brand components for Merida Living.
 
-function BrandMark({ size = 36, title = "Mérida Living" }) {
-  const s = size;
+function BrandMark({ size = 36, title = "Merida Living" }) {
   return (
-    <span className="brand-mark" style={{display:'inline-block', width: s, height: s, lineHeight: 0}}>
+    <span className="brand-mark" style={{ display: "inline-block", width: size, height: size, lineHeight: 0 }}>
       <img
         src="assets/official/brand/favico.png"
         alt={title}
-        style={{ width: s, height: s, objectFit: 'contain' }}
+        style={{ width: size, height: size, objectFit: "contain" }}
       />
     </span>
   );
 }
 
-function BrandLockup({ size = 36, sub = "Beyond Real Estate" }) {
+function BrandLockup() {
   return (
     <div className="brand">
-      <BrandMark size={size} />
-      <div>
-        <div className="brand-name">Mérida Living</div>
-        <div className="brand-sub">{sub}</div>
-      </div>
+      <img
+        className="brand-logo-full"
+        src="assets/official/brand/logo.png"
+        alt="Merida Living - beyond real estate"
+      />
     </div>
   );
 }
