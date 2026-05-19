@@ -1,19 +1,51 @@
 // Top bar + Hero + advanced search
 
+function scrollToMLHash(hash, behavior = 'smooth') {
+  if (!hash) return false;
+  const id = decodeURIComponent(hash.replace(/^#/, ''));
+  const el = document.getElementById(id);
+  if (!el) return false;
+  const topbar = document.querySelector('.topbar');
+  const topbarH = topbar ? topbar.getBoundingClientRect().height : 0;
+  const style = window.getComputedStyle(el);
+  const paddingTop = parseFloat(style.paddingTop) || 0;
+  const y = el.getBoundingClientRect().top + window.scrollY + paddingTop - topbarH - 28;
+  window.scrollTo({ top: Math.max(0, y), behavior });
+  return true;
+}
+
+function handleMLAnchorClick(e, href) {
+  const url = new URL(href, window.location.href);
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  const targetFile = url.pathname.split('/').pop() || 'index.html';
+  if (url.origin !== window.location.origin || currentFile !== targetFile || !url.hash) return;
+  e.preventDefault();
+  window.history.pushState(null, '', url.hash);
+  scrollToMLHash(url.hash);
+}
+
 function TopBar() {
   const { lang, setLang, copy } = useMLLang();
   const links = window.ML_LINKS || {};
+  const nav = {
+    properties: links.properties || "index.html#properties",
+    exclusive: links.exclusive || "index.html#properties",
+    centro: links.centro || "index.html#neighborhoods",
+    beach: links.beach || "index.html#properties",
+    rentals: links.rentals || "index.html#contact",
+    blog: links.blog || "index.html#journal",
+  };
   return (
     <header className="topbar" data-screen-label="Top Bar">
       <div className="container topbar-inner">
         <BrandLockup size={40} sub="Beyond Real Estate" />
         <nav className="nav">
-          <a className="active" href={links.properties || "index.html#properties"}>{copy.navProperties}</a>
-          <a href={links.exclusive || "index.html#properties"}>{copy.navExclusive}</a>
-          <a href={links.centro || "index.html#neighborhoods"}>{copy.navCentro}</a>
-          <a href={links.beach || "index.html#properties"}>{copy.navBeach}</a>
-          <a href={links.rentals || "index.html#contact"}>{copy.navRentals}</a>
-          <a href={links.blog || "index.html#journal"}>{copy.navBlog}</a>
+          <a className="active" href={nav.properties} onClick={(e) => handleMLAnchorClick(e, nav.properties)}>{copy.navProperties}</a>
+          <a href={nav.exclusive} onClick={(e) => handleMLAnchorClick(e, nav.exclusive)}>{copy.navExclusive}</a>
+          <a href={nav.centro} onClick={(e) => handleMLAnchorClick(e, nav.centro)}>{copy.navCentro}</a>
+          <a href={nav.beach} onClick={(e) => handleMLAnchorClick(e, nav.beach)}>{copy.navBeach}</a>
+          <a href={nav.rentals} onClick={(e) => handleMLAnchorClick(e, nav.rentals)}>{copy.navRentals}</a>
+          <a href={nav.blog} onClick={(e) => handleMLAnchorClick(e, nav.blog)}>{copy.navBlog}</a>
         </nav>
         <div style={{display:'flex', alignItems:'center', gap:18}}>
           <div className="lang">
@@ -121,3 +153,4 @@ function Hero() {
 
 window.TopBar = TopBar;
 window.Hero = Hero;
+window.scrollToMLHash = scrollToMLHash;

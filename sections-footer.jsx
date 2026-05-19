@@ -4,7 +4,7 @@ function FinalCTA() {
   const { copy } = useMLLang();
   const links = window.ML_LINKS || {};
   return (
-    <section style={{padding:'120px 0'}} data-screen-label="CTA final">
+    <section id="contact" style={{padding:'120px 0'}} data-screen-label="CTA final">
       <div className="container">
         <div className="cta-wrap">
           <div>

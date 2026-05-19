@@ -27,6 +27,11 @@ function App() {
     document.documentElement.lang = lang;
   }, [lang]);
 
+  useEffect(() => {
+    if (!window.location.hash) return;
+    setTimeout(() => window.scrollToMLHash?.(window.location.hash, 'auto'), 0);
+  }, []);
+
   // TweakColor stores the color string; map back to value name.
   const accentColor = ACCENT_OPTS.find(o => o.value === t.accent)?.color || '#3FBBB0';
   const handleAccent = (hex) => {

@@ -289,6 +289,11 @@ function PropertyApp() {
     document.title = `${PROPERTY.name} — Mérida Living`;
   }, []);
 
+  useEffectP(() => {
+    if (!window.location.hash) return;
+    setTimeout(() => window.scrollToMLHash?.(window.location.hash, 'auto'), 0);
+  }, []);
+
   const accentColor = ACCENT_OPTS_P.find(o => o.value === t.accent)?.color || '#3FBBB0';
   const handleAccent = (hex) => {
     const m = ACCENT_OPTS_P.find(o => o.color === hex);

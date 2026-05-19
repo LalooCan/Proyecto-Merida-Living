@@ -1,5 +1,8 @@
 // property.jsx — components for the featured property detail page.
 
+const officialCasaImages = (files) =>
+  files.map((file) => `assets/official/casas/2128/${file}`);
+
 const PROPERTY_IMAGE_MAP = {
   "P-01": [
     "assets/official/casas/2026-05-05_10-28-16_House_1.jpg",
@@ -15,13 +18,41 @@ const PROPERTY_IMAGE_MAP = {
     "assets/official/casas/2026-02-20_09-44-49_House_0.jpg",
     "assets/official/casas/2026-02-27_16-23-45_House_principal.jpeg",
   ],
-  "P-03": [
-    "assets/official/casas/2026-05-14_12-20-10_House_20260502_143558.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_11.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_12.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_13.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_14.jpg",
-  ],
+  "P-03": officialCasaImages([
+    "2026-05-14_11-54-18_House_20260502_143558.jpg",
+    "2026-05-14_11-54-19_House_20260502_143618.jpg",
+    "2026-05-14_11-54-20_House_20260502_143625.jpg",
+    "2026-05-14_11-54-20_House_20260502_143629.jpg",
+    "2026-05-14_11-54-21_House_20260502_143704.jpg",
+    "2026-05-14_11-54-22_House_20260502_143733.jpg",
+    "2026-05-14_11-54-22_House_20260502_143737.jpg",
+    "2026-05-14_11-54-23_House_20260502_143747.jpg",
+    "2026-05-14_11-54-24_House_20260502_143832.jpg",
+    "2026-05-14_11-54-24_House_20260502_143848.jpg",
+    "2026-05-14_11-55-48_House_20260502_143907.jpg",
+    "2026-05-14_11-55-49_House_20260502_143916.jpg",
+    "2026-05-14_11-55-50_House_20260502_143933.jpg",
+    "2026-05-14_11-55-50_House_20260502_143946.jpg",
+    "2026-05-14_11-55-51_House_20260502_143959.jpg",
+    "2026-05-14_11-55-52_House_20260502_144010.jpg",
+    "2026-05-14_11-55-53_House_20260502_144014.jpg",
+    "2026-05-14_11-55-54_House_20260502_144030.jpg",
+    "2026-05-14_11-55-54_House_20260502_144038.jpg",
+    "2026-05-14_11-55-55_House_20260502_144058.jpg",
+    "2026-05-14_12-02-58_House_20260502_144058.jpg",
+    "2026-05-14_12-02-59_House_20260502_144112.jpg",
+    "2026-05-14_12-02-59_House_20260502_144124.jpg",
+    "2026-05-14_12-03-00_House_20260502_144145.jpg",
+    "2026-05-14_12-03-01_House_20260502_144519.jpg",
+    "2026-05-14_12-03-02_House_20260502_144530.jpg",
+    "2026-05-14_12-03-02_House_20260502_144540.jpg",
+    "2026-05-14_12-03-03_House_20260502_144540(1).jpg",
+    "2026-05-14_12-03-03_House_20260502_144545.jpg",
+    "2026-05-14_12-03-04_House_20260502_144600.jpg",
+    "2026-05-14_12-03-05_House_20260502_144605.jpg",
+    "2026-05-14_12-03-06_House_20260502_144753.jpg",
+    "2026-05-14_12-03-06_House_20260502_144811.jpg",
+  ]),
   "P-04": [
     "assets/official/casas/2026-04-16_17-02-33_House__DSC1273.jpg",
     "assets/official/casas/2026-05-05_10-28-46_House_15.jpg",
@@ -178,11 +209,36 @@ function HeroGallery() {
   const { copy } = useMLLang();
   const gallery = PROPERTY.gallery || [];
   const [hero, g2, g3, g4, g5] = gallery;
+  const [open, setOpen] = React.useState(false);
+  const [active, setActive] = React.useState(0);
+  const moreCount = Math.max(0, gallery.length - 5);
+  const showPhoto = (index) => {
+    const next = (index + gallery.length) % gallery.length;
+    setActive(next);
+    setOpen(true);
+  };
+  const move = (step) => setActive((current) => (current + step + gallery.length) % gallery.length);
+
+  React.useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+      if (e.key === "ArrowRight") move(1);
+      if (e.key === "ArrowLeft") move(-1);
+    };
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = oldOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open, gallery.length]);
   return (
     <section data-screen-label="Galería principal">
       <div className="container-wide hg-wrap">
         <div className="hg-grid" style={{position:'relative'}}>
-          <div className="hg-big" style={{position:'relative'}}>
+          <button className="hg-big hg-tile" type="button" onClick={() => showPhoto(0)} style={{position:'relative'}}>
             <ImgSlot
               id={`slot-prop-${PROPERTY.id}-hero`}
               placeholder="Fachada principal · foto hero"
@@ -193,19 +249,56 @@ function HeroGallery() {
               <span className="hg-tag code">{PROPERTY.code}</span>
               <span className="hg-tag live"><span className="dot"></span>{copy.galleryTour}</span>
             </div>
-          </div>
-          <ImgSlot id={`slot-prop-${PROPERTY.id}-g2`} placeholder="Fachada lateral" src={g2 || hero} style={{width:'100%', height:'100%', display:'block'}}/>
-          <ImgSlot id={`slot-prop-${PROPERTY.id}-g3`} placeholder="Interiores" src={g3 || hero} style={{width:'100%', height:'100%', display:'block'}}/>
-          <ImgSlot id={`slot-prop-${PROPERTY.id}-g4`} placeholder="Patio y obra" src={g4 || hero} style={{width:'100%', height:'100%', display:'block'}}/>
-          <div className="hg-more">
+          </button>
+          <button className="hg-tile" type="button" onClick={() => showPhoto(1)}>
+            <ImgSlot id={`slot-prop-${PROPERTY.id}-g2`} placeholder="Fachada lateral" src={g2 || hero} style={{width:'100%', height:'100%', display:'block'}}/>
+          </button>
+          <button className="hg-tile" type="button" onClick={() => showPhoto(2)}>
+            <ImgSlot id={`slot-prop-${PROPERTY.id}-g3`} placeholder="Interiores" src={g3 || hero} style={{width:'100%', height:'100%', display:'block'}}/>
+          </button>
+          <button className="hg-tile" type="button" onClick={() => showPhoto(3)}>
+            <ImgSlot id={`slot-prop-${PROPERTY.id}-g4`} placeholder="Patio y obra" src={g4 || hero} style={{width:'100%', height:'100%', display:'block'}}/>
+          </button>
+          <button className="hg-more hg-tile" type="button" onClick={() => showPhoto(4)}>
             <ImgSlot id={`slot-prop-${PROPERTY.id}-g5`} placeholder="Galería" src={g5 || hero} style={{width:'100%', height:'100%', display:'block'}}/>
             <div className="hg-more-overlay">
-              <div className="n">+19</div>
+              <div className="n">+{moreCount}</div>
               <div className="l">{copy.galleryViewAll}</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      {open && (
+        <div className="gallery-modal" role="dialog" aria-modal="true" aria-label={copy.galleryViewAll}>
+          <div className="gallery-backdrop" onClick={() => setOpen(false)}></div>
+          <div className="gallery-shell">
+            <div className="gallery-top">
+              <div>
+                <div className="gallery-kicker">{PROPERTY.code}</div>
+                <div className="gallery-title">{PROPERTY.name}</div>
+              </div>
+              <div className="gallery-count">{active + 1} / {gallery.length}</div>
+              <button className="gallery-close" type="button" onClick={() => setOpen(false)} aria-label="Close gallery">x</button>
+            </div>
+            <div className="gallery-stage">
+              <button className="gallery-arrow prev" type="button" onClick={() => move(-1)} aria-label="Previous image">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+              <img src={gallery[active]} alt={`${PROPERTY.name} ${active + 1}`} />
+              <button className="gallery-arrow next" type="button" onClick={() => move(1)} aria-label="Next image">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+            </div>
+            <div className="gallery-thumbs">
+              {gallery.map((src, i) => (
+                <button className={i === active ? "on" : ""} type="button" key={src} onClick={() => setActive(i)} aria-label={`Image ${i + 1}`}>
+                  <img src={src} alt="" />
+                </button>
+              ))}
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
