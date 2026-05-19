@@ -41,17 +41,17 @@ function App() {
 
   return (
     <MLLangContext.Provider value={{ lang, setLang, copy: ML_COPY[lang] }}>
-      <TopBar />
-      <Hero />
-      <FeaturedSection />
-      <Neighborhoods />
-      <WhyUs />
-      <CatalogStrip />
-      <Testimonials />
-      <Team />
-      <Journal />
-      <FinalCTA />
-      <Footer />
+      <ErrorBoundary label="Top Bar"><TopBar /></ErrorBoundary>
+      <ErrorBoundary label="Hero"><Hero /></ErrorBoundary>
+      <ErrorBoundary label="Propiedades destacadas"><FeaturedSection /></ErrorBoundary>
+      <ErrorBoundary label="Barrios"><Neighborhoods /></ErrorBoundary>
+      <ErrorBoundary label="Por qué nosotros"><WhyUs /></ErrorBoundary>
+      <ErrorBoundary label="Catálogo"><CatalogStrip /></ErrorBoundary>
+      <ErrorBoundary label="Testimonios"><Testimonials /></ErrorBoundary>
+      <ErrorBoundary label="Equipo"><Team /></ErrorBoundary>
+      <ErrorBoundary label="Diario"><Journal /></ErrorBoundary>
+      <ErrorBoundary label="Contacto"><FinalCTA /></ErrorBoundary>
+      <ErrorBoundary label="Footer"><Footer /></ErrorBoundary>
       <WhatsFloat />
 
       <TweaksPanel title="Tweaks">

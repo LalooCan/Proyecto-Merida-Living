@@ -8,14 +8,7 @@ function fmtMXN(n) {
   return "MXN " + (n/1000000).toFixed(2) + "M";
 }
 
-const OFFICIAL_PROPERTY_IMAGES = {
-  "P-01": "assets/official/casas/2026-05-05_10-27-49_House_0.jpg",
-  "P-02": "assets/official/casas/2026-04-27_17-07-05_House_1.jpg",
-  "P-03": "assets/official/casas/2026-05-14_12-20-10_House_20260502_143558.jpg",
-  "P-04": "assets/official/casas/2026-04-16_17-02-33_House__DSC1273.jpg",
-  "P-05": "assets/official/casas/2026-04-08_11-19-52_House_0.jpg",
-  "P-06": "assets/official/casas/2026-03-11_12-55-51_House_13.jpg",
-};
+const OFFICIAL_PROPERTY_IMAGES = (window.ML_LISTINGS && window.ML_LISTINGS.COVER_IMAGES) || {};
 
 function SectionHead({ eyebrow, title, kicker, right }) {
   return (

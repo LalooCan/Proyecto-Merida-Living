@@ -1,266 +1,20 @@
-// Mock data for the Mérida Living redesign — bilingual (ES / EN).
+// data.jsx — UI copy bilingüe y contexto de idioma.
+// Los datos de propiedades, fotos y ubicaciones viven en listings.js.
+// Edita ese archivo para agregar, modificar o eliminar propiedades.
 
-// ───────────────────────── Spanish data (default / ES) ────────────────────────
-const PROPERTIES_ES = [
-  {
-    id: "P-01",
-    code: "2130",
-    name: "Garcia Gineres Fixer Upper",
-    neighborhood: "García Ginerés",
-    type: "Proyecto de restauración",
-    badge: "Exclusiva",
-    isNew: true,
-    priceUSD: 142500,
-    priceMXN: 2500000,
-    beds: 1, baths: 1, m2: 224, lot: 305,
-    pool: false, parking: 2,
-    summary: "Casa para restaurar en García Ginerés con pasta original, patio, estudio y una base sólida para intervenir con carácter.",
-    tone: "olive",
-  },
-  {
-    id: "P-02",
-    code: "2129",
-    name: "Casa Hacienda Dream Home",
-    neighborhood: "Santiago / García Ginerés",
-    type: "Hacienda residencial",
-    badge: "Exclusiva",
-    priceUSD: 625000,
-    priceMXN: 11500000,
-    beds: 4, baths: 4, m2: 285, lot: 606,
-    pool: true, parking: 1,
-    summary: "Residencia estilo hacienda entre Santiago y García Ginerés, con jardines, arcos, piscina y habitaciones independientes.",
-    tone: "terracotta",
-  },
-  {
-    id: "P-03",
-    code: "2128",
-    name: "Casa Lienzo Rosa",
-    neighborhood: "Itzaes / García Ginerés",
-    type: "Colonial con potencial",
-    badge: "Restauración",
-    priceUSD: 156000,
-    priceMXN: 2750000,
-    beds: 2, baths: 1, m2: 115, lot: 364,
-    pool: false, parking: 0,
-    summary: "Casa sobre Calle 49 con patio generoso, estructura con carácter y espacio para desarrollar jardines o terrazas.",
-    tone: "ochre",
-  },
-  {
-    id: "P-04",
-    code: "2125",
-    name: "Casa Acrelio",
-    neighborhood: "Centro Histórico",
-    type: "Restauración histórica",
-    badge: "AAA location",
-    priceUSD: 419000,
-    priceMXN: 7200000,
-    beds: 2, baths: 1, m2: 180, lot: 442,
-    pool: false, parking: 1,
-    summary: "Oportunidad de restauración en Centro con pisos de pasta, proporciones amplias, patio profundo y espacio para cochera.",
-    tone: "olive",
-  },
-  {
-    id: "P-05",
-    code: "2124",
-    name: "Casa Montecristo",
-    neighborhood: "Montecristo",
-    type: "Residencia norte",
-    badge: "Northside",
-    priceUSD: 559000,
-    priceMXN: 10000000,
-    beds: 4, baths: 4.5, m2: 495, lot: 713,
-    pool: true, parking: 2,
-    summary: "Residencia al norte con fachada ajardinada, áreas sociales amplias, terraza cubierta, piscina y suite principal.",
-    tone: "terracotta",
-  },
-  {
-    id: "P-06",
-    code: "2121",
-    name: "Casa Historic",
-    neighborhood: "San Cristóbal",
-    type: "Colonial parcialmente renovada",
-    badge: "Histórica",
-    priceUSD: 209000,
-    priceMXN: 3800000,
-    beds: 2, baths: 2.5, m2: 189, lot: 229,
-    pool: false, parking: 0,
-    summary: "Casa colonial con techos altos, vigas originales, avance de renovación y vistas hacia San Cristóbal desde azotea.",
-    tone: "ochre",
-  },
-];
+const _ls = window.ML_LISTINGS;
+if (!_ls) {
+  console.error('[ML] listings.js no cargó. Verifica que <script src="listings.js"> esté incluido antes de data.jsx en el HTML.');
+}
 
-// ───────────────────────────── English data (EN) ─────────────────────────────
-// Proper nouns (property/neighborhood names) intentionally stay in Spanish.
-const PROPERTIES_EN = [
-  {
-    id: "P-01",
-    code: "2130",
-    name: "Garcia Gineres Fixer Upper",
-    neighborhood: "García Ginerés",
-    type: "Restoration project",
-    badge: "Exclusive",
-    isNew: true,
-    priceUSD: 142500,
-    priceMXN: 2500000,
-    beds: 1, baths: 1, m2: 224, lot: 305,
-    pool: false, parking: 2,
-    summary: "A Garcia Gineres fixer upper with original pasta tile, patio, studio space and a strong base for a character renovation.",
-    tone: "olive",
-  },
-  {
-    id: "P-02",
-    code: "2129",
-    name: "Casa Hacienda Dream Home",
-    neighborhood: "Santiago / García Ginerés",
-    type: "Hacienda residence",
-    badge: "Exclusive",
-    priceUSD: 625000,
-    priceMXN: 11500000,
-    beds: 4, baths: 4, m2: 285, lot: 606,
-    pool: true, parking: 1,
-    summary: "A hacienda-style home between Santiago and Garcia Gineres, with gardens, arches, pool and independent guest rooms.",
-    tone: "terracotta",
-  },
-  {
-    id: "P-03",
-    code: "2128",
-    name: "Casa Lienzo Rosa",
-    neighborhood: "Itzaes / García Ginerés",
-    type: "Colonial with potential",
-    badge: "Restoration",
-    priceUSD: 156000,
-    priceMXN: 2750000,
-    beds: 2, baths: 1, m2: 115, lot: 364,
-    pool: false, parking: 0,
-    summary: "A Calle 49 home with a generous patio, architectural character and room for gardens, terraces or a creative intervention.",
-    tone: "ochre",
-  },
-  {
-    id: "P-04",
-    code: "2125",
-    name: "Casa Acrelio",
-    neighborhood: "Centro Histórico",
-    type: "Historic restoration",
-    badge: "AAA location",
-    priceUSD: 419000,
-    priceMXN: 7200000,
-    beds: 2, baths: 1, m2: 180, lot: 442,
-    pool: false, parking: 1,
-    summary: "A Centro restoration opportunity with pasta tile floors, generous proportions, a deep patio and room for a garage.",
-    tone: "olive",
-  },
-  {
-    id: "P-05",
-    code: "2124",
-    name: "Casa Montecristo",
-    neighborhood: "Montecristo",
-    type: "Northside residence",
-    badge: "Northside",
-    priceUSD: 559000,
-    priceMXN: 10000000,
-    beds: 4, baths: 4.5, m2: 495, lot: 713,
-    pool: true, parking: 2,
-    summary: "A northside residence with a landscaped facade, generous living areas, covered terrace, pool and primary suite.",
-    tone: "terracotta",
-  },
-  {
-    id: "P-06",
-    code: "2121",
-    name: "Casa Historic",
-    neighborhood: "San Cristóbal",
-    type: "Partially renovated colonial",
-    badge: "Historic",
-    priceUSD: 209000,
-    priceMXN: 3800000,
-    beds: 2, baths: 2.5, m2: 189, lot: 229,
-    pool: false, parking: 0,
-    summary: "A colonial home with high ceilings, original beams, meaningful renovation progress and rooftop views toward San Cristobal.",
-    tone: "ochre",
-  },
-];
-
-const NEIGHBORHOODS_ES = [
-  { name: "Centro Histórico", count: 84, blurb: "Casonas con patio, a pie de catedral." },
-  { name: "Santiago",          count: 41, blurb: "Mercado, bares de mezcal, vida de barrio." },
-  { name: "García Ginerés",    count: 28, blurb: "Casas de los 50, sombra de laurel." },
-  { name: "Itzimná",           count: 33, blurb: "Familiar, ciclovía y parques amplios." },
-  { name: "Temozón Norte",     count: 52, blurb: "Privadas nuevas, clubes y golf." },
-  { name: "Cholul",            count: 47, blurb: "Pueblo en expansión, plusvalía sostenida." },
-];
-
-const NEIGHBORHOODS_EN = [
-  { name: "Centro Histórico", count: 84, blurb: "Large patio homes, a walk from the cathedral." },
-  { name: "Santiago",          count: 41, blurb: "Market, mezcal bars, neighborhood life." },
-  { name: "García Ginerés",    count: 28, blurb: "1950s homes under laurel-tree shade." },
-  { name: "Itzimná",           count: 33, blurb: "Family-friendly, bike lanes and large parks." },
-  { name: "Temozón Norte",     count: 52, blurb: "New gated communities, country clubs and golf." },
-  { name: "Cholul",            count: 47, blurb: "Growing town with strong appreciation." },
-];
-
-const SERVICES_ES = [
-  { n: "01", title: "Compra asistida",     body: "Acompañamos cada paso: due diligence, notaría, fideicomiso y obra menor de entrega." },
-  { n: "02", title: "Venta con curaduría", body: "Fotografía, video y storytelling editorial. Listing privado antes del mercado abierto." },
-  { n: "03", title: "Renta vacacional",    body: "Operación llave en mano para Airbnb, Booking y huéspedes directos." },
-  { n: "04", title: "Restauración",        body: "Red de arquitectos restauradores, artesanos y maestros pintores con obra en Mérida." },
-];
-
-const SERVICES_EN = [
-  { n: "01", title: "Assisted purchase", body: "We guide every step: due diligence, notary, bank trust and minor delivery work." },
-  { n: "02", title: "Curated sale",      body: "Editorial photography, video and storytelling. Private listing before going to open market." },
-  { n: "03", title: "Vacation rental",   body: "Turnkey operation for Airbnb, Booking and direct guests." },
-  { n: "04", title: "Restoration",       body: "Network of restoration architects, artisans and master painters with built work in Mérida." },
-];
-
-const TESTIMONIALS_ES = [
-  { quote: "Nos enseñaron 14 casas en 3 días y entendieron exactamente lo que buscábamos. La compra cerró en seis semanas, fideicomiso incluido.",
-    author: "Marie L.", detail: "Compradora — Montreal a Santiago" },
-  { quote: "La fotografía de la casa fue otra cosa. Tuvimos cuatro ofertas en la primera semana y vendimos arriba de lista.",
-    author: "Familia Cervera", detail: "Vendedores — Centro Histórico" },
-  { quote: "Nos manejaron la remodelación completa estando nosotros en Austin. Reportes semanales con foto y presupuesto al día.",
-    author: "David & Renée", detail: "Restauración — Itzimná" },
-];
-
-const TESTIMONIALS_EN = [
-  { quote: "They showed us 14 houses in 3 days and understood exactly what we were looking for. The purchase closed in six weeks, bank trust included.",
-    author: "Marie L.", detail: "Buyer — Montreal to Santiago" },
-  { quote: "The home photography was something else. We had four offers in the first week and sold above asking.",
-    author: "The Cervera family", detail: "Sellers — Centro Histórico" },
-  { quote: "They handled the full remodel while we were in Austin. Weekly reports with photos and the budget up to date.",
-    author: "David & Renée", detail: "Restoration — Itzimná" },
-];
-
-const TEAM = [
-  { name: "Andrea Pacheco",  role_es: "Broker principal",         role_en: "Principal broker",    years: 14, langs: "ES · EN · FR" },
-  { name: "Rodrigo Cervera", role_es: "Casas históricas",         role_en: "Historic homes",      years: 11, langs: "ES · EN" },
-  { name: "Marisol Uc",      role_es: "Haciendas y terrenos",     role_en: "Haciendas & land",    years: 9,  langs: "ES · EN · MAYA" },
-  { name: "Tom Whitfield",   role_es: "Clientes internacionales", role_en: "International clients", years: 8,  langs: "EN · ES" },
-];
-
-const STATS_ES = [
-  { k: "187",     label: "operaciones cerradas en 2024" },
-  { k: "USD 92M", label: "volumen transaccionado" },
-  { k: "31",      label: "días promedio en mercado" },
-  { k: "4.9",     label: "calificación de clientes" },
-];
-
-const STATS_EN = [
-  { k: "187",     label: "transactions closed in 2024" },
-  { k: "USD 92M", label: "total transaction volume" },
-  { k: "31",      label: "average days on market" },
-  { k: "4.9",     label: "client rating" },
-];
-
-// ── Language-keyed data registry ─────────────────────────────────────────────
-const MLD_BY_LANG = {
-  es: { PROPERTIES: PROPERTIES_ES, NEIGHBORHOODS: NEIGHBORHOODS_ES, SERVICES: SERVICES_ES, TESTIMONIALS: TESTIMONIALS_ES, TEAM, STATS: STATS_ES },
-  en: { PROPERTIES: PROPERTIES_EN, NEIGHBORHOODS: NEIGHBORHOODS_EN, SERVICES: SERVICES_EN, TESTIMONIALS: TESTIMONIALS_EN, TEAM, STATS: STATS_EN },
+const MLD_BY_LANG = (_ls && _ls.BY_LANG) || {
+  es: { PROPERTIES: [], NEIGHBORHOODS: [], SERVICES: [], TESTIMONIALS: [], TEAM: [], STATS: [] },
+  en: { PROPERTIES: [], NEIGHBORHOODS: [], SERVICES: [], TESTIMONIALS: [], TEAM: [], STATS: [] },
 };
 
-// Backward-compat: window.MLD still exposes ES so any caller that hasn't been
-// migrated to getMLD(lang) keeps working.
-window.MLD = MLD_BY_LANG.es;
+window.MLD         = MLD_BY_LANG.es;
 window.MLD_BY_LANG = MLD_BY_LANG;
-window.getMLD = (lang) => MLD_BY_LANG[lang] || MLD_BY_LANG.es;
+window.getMLD      = (lang) => MLD_BY_LANG[lang] || MLD_BY_LANG.es;
 
 // ── UI copy ──────────────────────────────────────────────────────────────────
 const ML_COPY = {
@@ -705,7 +459,6 @@ function useMLLang() {
   return React.useContext(MLLangContext);
 }
 
-// Convenience: returns the language-localized data arrays plus the copy bundle.
 function useMLData() {
   const { lang, copy } = useMLLang();
   return { lang, copy, data: window.getMLD(lang) };
@@ -728,7 +481,7 @@ window.ML_LINKS = {
   maps: "https://www.google.com/maps/search/?api=1&query=Calle%2047%20482%20Centro%20Merida%20Yucatan"
 };
 
-window.ML_COPY = ML_COPY;
-window.MLLangContext = MLLangContext;
-window.useMLLang = useMLLang;
-window.useMLData = useMLData;
+window.ML_COPY        = ML_COPY;
+window.MLLangContext  = MLLangContext;
+window.useMLLang      = useMLLang;
+window.useMLData      = useMLData;

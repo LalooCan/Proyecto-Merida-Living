@@ -1,80 +1,8 @@
 // property.jsx — components for the featured property detail page.
+// Las galerías de fotos viven en listings.js (IMAGE_MAP).
 
-const officialCasaImages = (files) =>
-  files.map((file) => `assets/official/casas/2128/${file}`);
+const PROPERTY_IMAGE_MAP = (window.ML_LISTINGS && window.ML_LISTINGS.IMAGE_MAP) || {};
 
-const PROPERTY_IMAGE_MAP = {
-  "P-01": [
-    "assets/official/casas/2026-05-05_10-28-16_House_1.jpg",
-    "assets/official/casas/2026-05-05_10-28-16_House_2.jpg",
-    "assets/official/casas/2026-05-05_10-28-16_House_3.jpg",
-    "assets/official/casas/2026-05-05_10-28-16_House_4.jpg",
-    "assets/official/casas/2026-05-05_10-28-16_House_5.jpg",
-  ],
-  "P-02": [
-    "assets/official/casas/2026-04-27_17-07-05_House_1.jpg",
-    "assets/official/casas/2026-01-12_10-20-17_House_0.jpg",
-    "assets/official/casas/2025-09-05_14-11-53_House_file1merida.jpg",
-    "assets/official/casas/2026-02-20_09-44-49_House_0.jpg",
-    "assets/official/casas/2026-02-27_16-23-45_House_principal.jpeg",
-  ],
-  "P-03": officialCasaImages([
-    "2026-05-14_11-54-18_House_20260502_143558.jpg",
-    "2026-05-14_11-54-19_House_20260502_143618.jpg",
-    "2026-05-14_11-54-20_House_20260502_143625.jpg",
-    "2026-05-14_11-54-20_House_20260502_143629.jpg",
-    "2026-05-14_11-54-21_House_20260502_143704.jpg",
-    "2026-05-14_11-54-22_House_20260502_143733.jpg",
-    "2026-05-14_11-54-22_House_20260502_143737.jpg",
-    "2026-05-14_11-54-23_House_20260502_143747.jpg",
-    "2026-05-14_11-54-24_House_20260502_143832.jpg",
-    "2026-05-14_11-54-24_House_20260502_143848.jpg",
-    "2026-05-14_11-55-48_House_20260502_143907.jpg",
-    "2026-05-14_11-55-49_House_20260502_143916.jpg",
-    "2026-05-14_11-55-50_House_20260502_143933.jpg",
-    "2026-05-14_11-55-50_House_20260502_143946.jpg",
-    "2026-05-14_11-55-51_House_20260502_143959.jpg",
-    "2026-05-14_11-55-52_House_20260502_144010.jpg",
-    "2026-05-14_11-55-53_House_20260502_144014.jpg",
-    "2026-05-14_11-55-54_House_20260502_144030.jpg",
-    "2026-05-14_11-55-54_House_20260502_144038.jpg",
-    "2026-05-14_11-55-55_House_20260502_144058.jpg",
-    "2026-05-14_12-02-58_House_20260502_144058.jpg",
-    "2026-05-14_12-02-59_House_20260502_144112.jpg",
-    "2026-05-14_12-02-59_House_20260502_144124.jpg",
-    "2026-05-14_12-03-00_House_20260502_144145.jpg",
-    "2026-05-14_12-03-01_House_20260502_144519.jpg",
-    "2026-05-14_12-03-02_House_20260502_144530.jpg",
-    "2026-05-14_12-03-02_House_20260502_144540.jpg",
-    "2026-05-14_12-03-03_House_20260502_144540(1).jpg",
-    "2026-05-14_12-03-03_House_20260502_144545.jpg",
-    "2026-05-14_12-03-04_House_20260502_144600.jpg",
-    "2026-05-14_12-03-05_House_20260502_144605.jpg",
-    "2026-05-14_12-03-06_House_20260502_144753.jpg",
-    "2026-05-14_12-03-06_House_20260502_144811.jpg",
-  ]),
-  "P-04": [
-    "assets/official/casas/2026-04-16_17-02-33_House__DSC1273.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_15.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_16.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_17.jpg",
-    "assets/official/casas/2026-05-05_10-28-46_House_18.jpg",
-  ],
-  "P-05": [
-    "assets/official/casas/2026-04-08_11-19-52_House_0.jpg",
-    "assets/official/casas/2025-02-19_16-12-14_House_0.jpg",
-    "assets/official/casas/2025-05-28_17-36-06_House_0.JPG",
-    "assets/official/casas/2026-02-03_16-11-30_House_IMG_5954.jpeg",
-    "assets/official/ambient/FotoAleatoria_21.jpg",
-  ],
-  "P-06": [
-    "assets/official/casas/2026-03-11_12-55-51_House_13.jpg",
-    "assets/official/casas/2026-03-09_12-55-13_House_meridahomerenovation1.png",
-    "assets/official/casas/2026-05-05_10-28-16_House_6.jpg",
-    "assets/official/casas/2026-05-05_10-28-16_House_7.jpg",
-    "assets/official/casas/2026-05-05_10-28-16_House_8.jpg",
-  ],
-};
 
 const PROPERTY_DETAIL_DEFAULTS = {
   year: null,

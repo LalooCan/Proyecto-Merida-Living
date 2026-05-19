@@ -1,14 +1,5 @@
 // property-app.jsx — remaining property sections + page root.
 
-
-const OFFICIAL_SIMILAR_IMAGES = {
-  "P-02": "assets/official/casas/2026-04-27_17-07-05_House_1.jpg",
-  "P-03": "assets/official/casas/2026-05-14_12-20-10_House_20260502_143558.jpg",
-  "P-04": "assets/official/casas/2026-04-16_17-02-33_House__DSC1273.jpg",
-  "P-05": "assets/official/casas/2026-04-08_11-19-52_House_0.jpg",
-  "P-06": "assets/official/casas/2026-03-11_12-55-51_House_13.jpg",
-};
-
 function Description() {
   const { copy, data } = useMLData();
   const langProp = data.PROPERTIES.find(p => p.code === PROPERTY.rawCode) || data.PROPERTIES[0];
