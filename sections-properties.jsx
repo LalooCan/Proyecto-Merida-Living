@@ -260,7 +260,7 @@ function CatalogStrip() {
   }, []);
   const countType = (type) => filterProperties(PROPERTIES, { q: "", type, zone: "all", budget: "all" }).length;
   return (
-    <section id="catalog" style={{padding:'80px 0 40px'}} data-screen-label="Catálogo">
+    <section id="catalog" className="catalog-section" data-screen-label="Catálogo">
       <div className="container">
         <div className="catalog-bar">
           <div className="catalog-filters">

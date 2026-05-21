@@ -9,7 +9,8 @@ function scrollToMLHash(hash, behavior = 'smooth') {
   const topbarH = topbar ? topbar.getBoundingClientRect().height : 0;
   const style = window.getComputedStyle(el);
   const paddingTop = parseFloat(style.paddingTop) || 0;
-  const y = el.getBoundingClientRect().top + window.scrollY + paddingTop - topbarH - 28;
+  const offset = id === 'catalog' ? 0 : 28;
+  const y = el.getBoundingClientRect().top + window.scrollY + paddingTop - topbarH - offset;
   window.scrollTo({ top: Math.max(0, y), behavior });
   return true;
 }
@@ -28,10 +29,10 @@ function TopBar() {
   const { lang, setLang, copy } = useMLLang();
   const links = window.ML_LINKS || {};
   const nav = {
-    properties: links.properties || "index.html#properties",
+    properties: links.properties || "index.html#catalog",
     exclusive: links.exclusive || "index.html#properties",
     centro: links.centro || "index.html#neighborhoods",
-    beach: links.beach || "index.html#properties",
+    beach: links.agents || links.beach || "index.html#agents",
     rentals: links.rentals || "index.html#contact",
     blog: links.blog || "index.html#journal",
   };

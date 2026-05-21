@@ -42,8 +42,8 @@ const ML_COPY = {
     navProperties: "Propiedades",
     navExclusive: "Listings Exclusivos",
     navCentro: "Centro",
-    navBeach: "Playa",
-    navRentals: "Rentas",
+    navBeach: "Agentes",
+    navRentals: "Contacto",
     navBlog: "Blog",
     visit: "Agenda una visita",
 
@@ -257,8 +257,8 @@ const ML_COPY = {
     navProperties: "Properties",
     navExclusive: "Exclusive Listings",
     navCentro: "Centro",
-    navBeach: "Beach",
-    navRentals: "Rentals",
+    navBeach: "Agents",
+    navRentals: "Contact",
     navBlog: "Blog",
     visit: "Schedule a visit",
 
@@ -485,10 +485,11 @@ function useMLData() {
 
 window.ML_LINKS = {
   site: "index.html",
-  properties: "index.html#properties",
+  properties: "index.html#catalog",
   exclusive: "index.html#properties",
   centro: "index.html#neighborhoods",
-  beach: "index.html#properties",
+  beach: "index.html#agents",
+  agents: "index.html#agents",
   rentals: "index.html#contact",
   blog: "index.html#journal",
   instagram: "https://www.instagram.com/meridaliving/",

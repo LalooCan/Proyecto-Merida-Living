@@ -37,7 +37,6 @@ function WhyUs() {
                     <div className="st">{s.title}</div>
                     <div className="sd">{s.body}</div>
                   </div>
-                  <div className="sarrow">→</div>
                 </div>
               ))}
             </div>
