@@ -303,8 +303,8 @@ function Neighborhoods() {
   const { copy, data } = useMLData();
   const { NEIGHBORHOODS } = data;
   return (
-    <section id="neighborhoods" style={{padding:'120px 0 40px'}} data-screen-label="Barrios">
-      <div className="container">
+    <section style={{padding:'120px 0 40px'}} data-screen-label="Barrios">
+      <div id="neighborhoods" className="container">
         <SectionHead
           eyebrow={{num: copy.nbNum, text: copy.nbText}}
           title={copy.nbTitle}

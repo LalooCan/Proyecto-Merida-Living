@@ -7,19 +7,17 @@ function scrollToMLHash(hash, behavior = 'smooth') {
   if (!el) return false;
   const topbar = document.querySelector('.topbar');
   const topbarH = topbar ? topbar.getBoundingClientRect().height : 0;
-  const style = window.getComputedStyle(el);
-  const paddingTop = parseFloat(style.paddingTop) || 0;
-  const offset = id === 'catalog' ? 0 : 28;
-  const y = el.getBoundingClientRect().top + window.scrollY + paddingTop - topbarH - offset;
+  const cs = window.getComputedStyle(el);
+  const paddingTop = parseFloat(cs.paddingTop) || 0;
+  const gap = id === 'catalog' ? 2 : 18;
+  const y = el.getBoundingClientRect().top + window.scrollY + paddingTop - topbarH - gap;
   window.scrollTo({ top: Math.max(0, y), behavior });
   return true;
 }
 
 function handleMLAnchorClick(e, href) {
   const url = new URL(href, window.location.href);
-  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
-  const targetFile = url.pathname.split('/').pop() || 'index.html';
-  if (url.origin !== window.location.origin || currentFile !== targetFile || !url.hash) return;
+  if (url.origin !== window.location.origin || !url.hash) return;
   e.preventDefault();
   window.history.pushState(null, '', url.hash);
   scrollToMLHash(url.hash);
@@ -37,6 +35,7 @@ function TopBar() {
     blog: links.blog || "index.html#journal",
   };
   return (
+    <>
     <header className="topbar" data-screen-label="Top Bar">
       <div className="container topbar-inner">
         <BrandLockup size={40} sub="Beyond Real Estate" />
@@ -60,6 +59,8 @@ function TopBar() {
         </div>
       </div>
     </header>
+    <div className="topbar-spacer" aria-hidden="true"></div>
+    </>
   );
 }
 
@@ -106,8 +107,7 @@ function Hero() {
   const updateCriteria = (key, value) => setCriteria((current) => ({ ...current, [key]: value }));
   const runSearch = (nextCriteria = criteria) => {
     window.dispatchEvent(new CustomEvent("ml-property-search", { detail: nextCriteria }));
-    const target = document.getElementById("catalog") || document.getElementById("properties");
-    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollToMLHash("#catalog");
   };
   const quickSearch = (quick) => {
     const text = quick.toLowerCase();
