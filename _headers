@@ -1,10 +1,10 @@
 /*.bundle.js
   Content-Type: application/javascript; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: no-cache
 
 /assets/dist/*.js
   Content-Type: application/javascript; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: no-cache
 
 /assets/official/*
   Cache-Control: public, max-age=31536000, immutable
