@@ -16,6 +16,25 @@ window.MLD         = MLD_BY_LANG.es;
 window.MLD_BY_LANG = MLD_BY_LANG;
 window.getMLD      = (lang) => MLD_BY_LANG[lang] || MLD_BY_LANG.es;
 
+function getMLStoredValue(key, fallback) {
+  try {
+    return localStorage.getItem(key) || fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function setMLStoredValue(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {}
+}
+
+function getMLStoredLang() {
+  const lang = getMLStoredValue('ml-lang', 'en');
+  return lang === 'es' || lang === 'en' ? lang : 'en';
+}
+
 // ── UI copy ──────────────────────────────────────────────────────────────────
 const ML_COPY = {
   es: {
@@ -485,3 +504,5 @@ window.ML_COPY        = ML_COPY;
 window.MLLangContext  = MLLangContext;
 window.useMLLang      = useMLLang;
 window.useMLData      = useMLData;
+window.getMLStoredLang = getMLStoredLang;
+window.setMLStoredValue = setMLStoredValue;

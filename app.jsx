@@ -12,10 +12,11 @@ const ACCENT_OPTS = [
 
 function App() {
   const [t, setTweak] = useTweaks(window.__TWEAK_DEFAULTS__);
-  const [lang, setLangState] = useState(() => localStorage.getItem('ml-lang') || 'en');
+  const [lang, setLangState] = useState(() => window.getMLStoredLang ? window.getMLStoredLang() : 'en');
   const setLang = (nextLang) => {
+    if (nextLang !== 'es' && nextLang !== 'en') return;
     setLangState(nextLang);
-    localStorage.setItem('ml-lang', nextLang);
+    window.setMLStoredValue?.('ml-lang', nextLang);
   };
 
   useEffect(() => {
@@ -40,7 +41,7 @@ function App() {
   };
 
   return (
-    <MLLangContext.Provider value={{ lang, setLang, copy: ML_COPY[lang] }}>
+    <MLLangContext.Provider value={{ lang, setLang, copy: ML_COPY[lang] || ML_COPY.en }}>
       <ErrorBoundary label="Top Bar"><TopBar /></ErrorBoundary>
       <ErrorBoundary label="Hero"><Hero /></ErrorBoundary>
       <ErrorBoundary label="Propiedades destacadas"><FeaturedSection /></ErrorBoundary>

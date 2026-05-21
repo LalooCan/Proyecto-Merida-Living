@@ -62,8 +62,95 @@ function TopBar() {
   );
 }
 
+function SearchMenu({ id, value, options, open, onToggle, onChange }) {
+  const selected = options.find(([optionValue]) => optionValue === value) || options[0];
+  return (
+    <div className="sc-menu-wrap">
+      <button className="sc-menu-trigger" type="button" onClick={() => onToggle(open ? null : id)} aria-expanded={open}>
+        <span>{selected ? selected[1] : ""}</span>
+        <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" stroke="currentColor" fill="none" strokeWidth="1.4" strokeLinecap="round"/></svg>
+      </button>
+      {open && (
+        <div className="sc-menu" role="listbox">
+          {options.map(([optionValue, label]) => (
+            <button
+              className={optionValue === value ? "on" : ""}
+              type="button"
+              key={optionValue}
+              role="option"
+              aria-selected={optionValue === value}
+              onClick={() => {
+                onChange(optionValue);
+                onToggle(null);
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Hero() {
-  const { copy } = useMLLang();
+  const { copy, lang } = useMLLang();
+  const [criteria, setCriteria] = React.useState({
+    q: "",
+    type: "all",
+    zone: "all",
+    budget: "all",
+  });
+  const [openMenu, setOpenMenu] = React.useState(null);
+  const updateCriteria = (key, value) => setCriteria((current) => ({ ...current, [key]: value }));
+  const runSearch = (nextCriteria = criteria) => {
+    window.dispatchEvent(new CustomEvent("ml-property-search", { detail: nextCriteria }));
+    const target = document.getElementById("catalog") || document.getElementById("properties");
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const quickSearch = (quick) => {
+    const text = quick.toLowerCase();
+    const nextCriteria = {
+      q: "",
+      type: text.includes("hacienda") ? "hacienda" : "all",
+      zone: "all",
+      budget: text.includes("250") ? "under250" : "all",
+    };
+    if (text.includes("alberca") || text.includes("pool")) nextCriteria.q = lang === "es" ? "alberca" : "pool";
+    if (text.includes("restaur")) nextCriteria.q = lang === "es" ? "restaurada" : "restored";
+    if (text.includes("rentar") || text.includes("rental")) nextCriteria.q = lang === "es" ? "renta" : "rental";
+    if (text.includes("pre")) nextCriteria.q = "pre";
+    setCriteria(nextCriteria);
+    runSearch(nextCriteria);
+  };
+  const typeOptions = lang === "es"
+    ? [["all", "Todos"], ["colonial", "Colonial"], ["modern", "Moderna"], ["hacienda", "Hacienda"], ["apartment", "Departamento"]]
+    : [["all", "All"], ["colonial", "Colonial"], ["modern", "Modern"], ["hacienda", "Hacienda"], ["apartment", "Apartment"]];
+  const zoneOptions = [
+    ["all", lang === "es" ? "Todas las zonas" : "All areas"],
+    ["centro", copy.centro],
+    ["santa lucia", "Santa Lucia"],
+    ["santiago", "Santiago"],
+    ["garcia", "Garcia Gineres"],
+    ["norte", lang === "es" ? "Norte" : "North"],
+    ["playa", lang === "es" ? "Playa" : "Beach"],
+  ];
+  const budgetOptions = lang === "es"
+    ? [["all", "Cualquier presupuesto"], ["under250", "Menos de USD 250k"], ["250500", "USD 250k - 500k"], ["500800", "USD 500k - 800k"], ["over800", "Mas de USD 800k"]]
+    : [["all", "Any budget"], ["under250", "Under USD 250k"], ["250500", "USD 250k - 500k"], ["500800", "USD 500k - 800k"], ["over800", "Over USD 800k"]];
+  React.useEffect(() => {
+    if (!openMenu) return undefined;
+    const close = (event) => {
+      if (event.key === "Escape") setOpenMenu(null);
+      if (event.type === "pointerdown" && !event.target.closest(".sc-menu-wrap")) setOpenMenu(null);
+    };
+    window.addEventListener("keydown", close);
+    window.addEventListener("pointerdown", close);
+    return () => {
+      window.removeEventListener("keydown", close);
+      window.removeEventListener("pointerdown", close);
+    };
+  }, [openMenu]);
   return (
     <section className="hero" data-screen-label="Hero">
       <div className="container">
@@ -97,15 +184,15 @@ function Hero() {
 
           <div className="hero-vis">
             <div className="hero-arch">
-              <image-slot id="slot-home-hero" placeholder="Foto hero · Proyecto en Garcia Gineres" src="assets/official/casas/2026-05-05_10-27-49_House_0.jpg" style={{width:'100%', height:'100%', display:'block'}}></image-slot>
+              <image-slot id="slot-home-hero" placeholder="Foto hero · Casa Hacienda Dream Home" src="assets/official/casas/2129/2026-04-27_17-07-38_House_1.jpg" style={{width:'100%', height:'100%', display:'block'}}></image-slot>
             </div>
             <div className="hero-tag"><span className="dot"></span>{copy.tour}</div>
             <div className="hero-card">
               <div className="hc-eyebrow">{copy.listing}</div>
-              <div className="hc-name">Garcia Gineres Fixer Upper</div>
-              <div style={{fontSize:13, color:'var(--ink-3)'}}>García Ginerés · MLD-2130 · 224 m²</div>
+              <div className="hc-name">Casa Hacienda Dream Home</div>
+              <div style={{fontSize:13, color:'var(--ink-3)'}}>Santiago / García Ginerés · MLD-2129 · 606 m²</div>
               <div className="hc-row">
-                <span className="hc-price">USD 143k</span>
+                <span className="hc-price">USD 625k</span>
                 <span className="hc-cta">{copy.viewListing}</span>
               </div>
             </div>
@@ -115,36 +202,34 @@ function Hero() {
         <div className="search-wrap">
           <div className="search-cell">
             <div className="sc-label">{copy.want}</div>
-            <div className="sc-value">{copy.buy}
-              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" stroke="currentColor" fill="none" strokeWidth="1.4" strokeLinecap="round"/></svg>
-            </div>
+            <input
+              className="sc-input"
+              value={criteria.q}
+              onChange={(e) => updateCriteria("q", e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") runSearch(); }}
+              placeholder={lang === "es" ? "Nombre, codigo, zona..." : "Name, code, area..."}
+            />
           </div>
           <div className="search-cell">
             <div className="sc-label">{copy.type}</div>
-            <div className="sc-value">{copy.colonial}
-              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" stroke="currentColor" fill="none" strokeWidth="1.4" strokeLinecap="round"/></svg>
-            </div>
+            <SearchMenu id="type" value={criteria.type} options={typeOptions} open={openMenu === "type"} onToggle={setOpenMenu} onChange={(value) => updateCriteria("type", value)} />
           </div>
           <div className="search-cell">
             <div className="sc-label">{copy.zone}</div>
-            <div className="sc-value">{copy.centro}
-              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" stroke="currentColor" fill="none" strokeWidth="1.4" strokeLinecap="round"/></svg>
-            </div>
+            <SearchMenu id="zone" value={criteria.zone} options={zoneOptions} open={openMenu === "zone"} onToggle={setOpenMenu} onChange={(value) => updateCriteria("zone", value)} />
           </div>
           <div className="search-cell">
             <div className="sc-label">{copy.budget}</div>
-            <div className="sc-value">USD 300k – 800k
-              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" stroke="currentColor" fill="none" strokeWidth="1.4" strokeLinecap="round"/></svg>
-            </div>
+            <SearchMenu id="budget" value={criteria.budget} options={budgetOptions} open={openMenu === "budget"} onToggle={setOpenMenu} onChange={(value) => updateCriteria("budget", value)} />
           </div>
-          <button className="search-go" type="button" onClick={() => document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' })}>
+          <button className="search-go" type="button" onClick={() => runSearch()}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.5"/><path d="M9.5 9.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
             {copy.search}
           </button>
         </div>
 
         <div className="quicks">
-          {copy.quicks.map((quick) => <button className="quick" type="button" key={quick}>{quick}</button>)}
+          {copy.quicks.map((quick) => <button className="quick" type="button" key={quick} onClick={() => quickSearch(quick)}>{quick}</button>)}
         </div>
       </div>
     </section>

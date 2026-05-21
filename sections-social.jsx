@@ -81,6 +81,7 @@ function Team() {
       role: lang === "es" ? "Broker certificado" : "Certified broker",
       email: "cbm893@hotmail.com",
       phone: "9992005794",
+      languages: ["ES", "EN"],
       image: "assets/official/agents/CB03.jpg",
       accent: "teal",
       focus: "object-position: 50% 20%;",
@@ -91,6 +92,7 @@ function Team() {
       role: lang === "es" ? "Compradores y vendedores" : "Buyers & sellers",
       email: "shirley.meridaliving@gmail.com",
       phone: "9997388818 MX | 5056994405 US",
+      languages: ["EN", "ES"],
       image: "assets/official/agents/2019-05-03_14-32-32_agents_Shirley_pic.jpg",
       accent: "purple",
       focus: "object-position: 50% 22%;",
@@ -101,6 +103,7 @@ function Team() {
       role: lang === "es" ? "Buyer care" : "Buyer care",
       email: "cristysosar94@hotmail.com",
       phone: "9992470757",
+      languages: ["ES", "EN"],
       image: "assets/official/agents/2019-07-15_13-31-46_agents_image001.jpg",
       accent: "green",
       focus: "object-position: 50% 18%;",
@@ -111,6 +114,7 @@ function Team() {
       role: lang === "es" ? "Listing y compra" : "Listing & buying",
       email: "meridaliving@hotmail.com",
       phone: "9993388526",
+      languages: ["ES", "EN"],
       image: "assets/official/agents/2020-04-04_13-08-53_agent_RSCN0215.JPG",
       accent: "orange",
       focus: "object-position: 50% 20%;",
@@ -121,6 +125,7 @@ function Team() {
       role: lang === "es" ? "Relocation local" : "Local relocation",
       email: "animurillom@hotmail.com",
       phone: "9992783427",
+      languages: ["ES", "EN"],
       image: "assets/official/agents/2022-12-10_13-33-22_agents_Annie.jpg",
       accent: "red",
       focus: "object-position: 50% 16%;",
@@ -131,6 +136,7 @@ function Team() {
       role: lang === "es" ? "Clientes internacionales" : "International clients",
       email: "arturomeridaliving@gmail.com",
       phone: "+52 1 999 502 2929",
+      languages: ["ES", "EN", "FR"],
       image: "assets/official/agents/2023-07-10_12-14-32_agent_IMG_4310.jpg",
       accent: "teal",
       focus: "object-position: 52% 18%;",
@@ -141,6 +147,7 @@ function Team() {
       role: lang === "es" ? "Inversion y lifestyle" : "Investment & lifestyle",
       email: "justaskjosey@me.com",
       phone: "CA +1 905 353 6884 · MX 999 773 2472",
+      languages: ["EN", "ES"],
       image: "assets/official/agents/2023-12-02_06-55-19_agent_IMG_6789.jpeg",
       accent: "purple",
       focus: "object-position: 50% 14%;",
@@ -175,6 +182,9 @@ function Team() {
             <div className="agent-kicker">{lang === "es" ? "Punto de contacto principal" : "Primary point of contact"}</div>
             <h3 className="agent-feature-name">{lead.name}</h3>
             <div className="agent-role">{lead.role}</div>
+            <div className="agent-languages" aria-label={lang === "es" ? "Idiomas" : "Languages"}>
+              {lead.languages.map((language) => <span key={language}>{language}</span>)}
+            </div>
             <p className="agent-feature-bio">{lead.bio}</p>
             <div className="agent-contact-row">
               <a href={`mailto:${lead.email}`}>{lead.email}</a>
@@ -195,6 +205,9 @@ function Team() {
               <div>
                 <h3 className="agent-mini-name">{agent.name}</h3>
                 <div className="agent-mini-role">{agent.role}</div>
+                <div className="agent-mini-languages" aria-label={lang === "es" ? "Idiomas" : "Languages"}>
+                  {agent.languages.map((language) => <span key={language}>{language}</span>)}
+                </div>
                 <p className="agent-mini-bio">{agent.bio}</p>
                 <div className="agent-mini-contact">
                   <a href={`mailto:${agent.email}`}>{agent.email}</a>

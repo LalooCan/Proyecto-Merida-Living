@@ -2,7 +2,8 @@
 
 function Description() {
   const { copy, data } = useMLData();
-  const langProp = data.PROPERTIES.find(p => p.code === PROPERTY.rawCode) || data.PROPERTIES[0];
+  const langProp = data.PROPERTIES.find(p => p.code === PROPERTY.rawCode) || data.PROPERTIES[0] || {};
+  const facts = { ...PROPERTY, ...langProp };
   return (
     <section data-screen-label="Descripción">
       <div className="container ds-wrap">
@@ -21,19 +22,19 @@ function Description() {
           <aside className="ds-facts">
             <h3>{copy.dsFactsTitle}</h3>
             <div className="ds-fact"><span className="l">{copy.dsMldCode}</span>    <span className="v">{PROPERTY.code}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsYear}</span>       <span className="v">{PROPERTY.year || copy.detailByConfirm}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsCondition}</span>  <span className="v">{copy.dsConditionVal}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsFacade}</span>     <span className="v">{PROPERTY.facade || copy.detailByConfirm}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsDepth}</span>      <span className="v">{PROPERTY.depth || copy.detailByConfirm}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsBuiltArea}</span>  <span className="v">{PROPERTY.m2} m²</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsLotLabel}</span>   <span className="v">{PROPERTY.lot} m²</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsBedsLabel}</span>  <span className="v">{PROPERTY.beds}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsBathsLabel}</span> <span className="v">{PROPERTY.baths}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsParkingLabel}</span><span className="v">{PROPERTY.parking}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsPoolLabel}</span>  <span className="v">{PROPERTY.pool ? copy.dsPoolYes : copy.dsPoolNo}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsRegime}</span>     <span className="v">{copy.dsRegimeVal}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsDelivery}</span>   <span className="v">{copy.dsDeliveryVal}</span></div>
-            <div className="ds-fact"><span className="l">{copy.dsInclusions}</span> <span className="v">{copy.dsInclusionsVal}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsYear}</span>       <span className="v">{facts.year || copy.detailByConfirm}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsCondition}</span>  <span className="v">{facts.condition || copy.dsConditionVal}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsFacade}</span>     <span className="v">{facts.facade || copy.detailByConfirm}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsDepth}</span>      <span className="v">{facts.depth || copy.detailByConfirm}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsBuiltArea}</span>  <span className="v">{facts.m2} m²</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsLotLabel}</span>   <span className="v">{facts.lot} m²</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsBedsLabel}</span>  <span className="v">{facts.beds}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsBathsLabel}</span> <span className="v">{facts.baths}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsParkingLabel}</span><span className="v">{facts.parking}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsPoolLabel}</span>  <span className="v">{facts.pool ? copy.dsPoolYes : copy.dsPoolNo}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsRegime}</span>     <span className="v">{facts.ownership || copy.dsRegimeVal}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsDelivery}</span>   <span className="v">{facts.delivery || copy.dsDeliveryVal}</span></div>
+            <div className="ds-fact"><span className="l">{copy.dsInclusions}</span> <span className="v">{facts.inclusions || copy.dsInclusionsVal}</span></div>
           </aside>
         </div>
       </div>
@@ -42,8 +43,9 @@ function Description() {
 }
 
 function FeaturesGrid() {
-  const { copy } = useMLLang();
-  const FEATURES = copy.feCategories;
+  const { copy, lang } = useMLLang();
+  const customFeatures = PROPERTY.features && (PROPERTY.features[lang] || PROPERTY.features.en || PROPERTY.features.es);
+  const FEATURES = customFeatures && customFeatures.length ? customFeatures : copy.feCategories;
   return (
     <section id="features" data-screen-label="Características">
       <div className="container fe-wrap">
@@ -135,18 +137,11 @@ function FloorMap() {
 }
 
 function getPropertyMapQuery(property) {
-  const approximateLocations = {
-    "P-01": "García Ginerés, Mérida, Yucatán, México",
-    "P-02": "Santiago, Mérida, Yucatán, México",
-    "P-03": "Itzaes, García Ginerés, Mérida, Yucatán, México",
-    "P-04": "Centro Histórico, Mérida, Yucatán, México",
-    "P-05": "Montecristo, Mérida, Yucatán, México",
-    "P-06": "San Cristóbal, Mérida, Yucatán, México",
-  };
   if (property.street) {
-    return `${property.street}, ${property.neighborhood}, Mérida, Yucatán, México`;
+    return property.street;
   }
-  return approximateLocations[property.id] || `${property.neighborhood}, Mérida, Yucatán, México`;
+  const mapLocations = (window.ML_LISTINGS && window.ML_LISTINGS.MAP_LOCATIONS) || {};
+  return mapLocations[property.id] || `${property.neighborhood}, Mérida, Yucatán, México`;
 }
 
 function ContactForm() {
@@ -215,6 +210,11 @@ function SimilarProps() {
   const { copy, data } = useMLData();
   const { PROPERTIES } = data;
   const similar = PROPERTIES.filter(p => p.id !== PROPERTY.id).slice(0, 3);
+  const getSimilarImage = (p) => {
+    const listings = window.ML_LISTINGS || {};
+    const gallery = (listings.IMAGE_MAP && listings.IMAGE_MAP[p.id]) || [];
+    return gallery[0] || (listings.COVER_IMAGES && listings.COVER_IMAGES[p.id]) || "";
+  };
   return (
     <section style={{padding:'80px 0'}} data-screen-label="Propiedades similares">
       <div className="container">
@@ -229,7 +229,7 @@ function SimilarProps() {
           {similar.map(p => (
             <a className="sp-card" key={p.id} href={`property.html?id=${encodeURIComponent(p.id)}`}>
               <div className="img">
-                <ImgSlot id={`slot-${p.id}-cover`} placeholder={`Foto · ${p.name}`} src={(window.PROPERTY_IMAGE_MAP && window.PROPERTY_IMAGE_MAP[p.id] && window.PROPERTY_IMAGE_MAP[p.id][0]) || OFFICIAL_SIMILAR_IMAGES[p.id]}/>
+                <ImgSlot id={`slot-${p.id}-cover`} placeholder={`Foto · ${p.name}`} src={getSimilarImage(p)}/>
               </div>
               <div className="lc">
                 <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M7 1a4 4 0 0 0-4 4c0 3 4 7 4 7s4-4 4-7a4 4 0 0 0-4-4z" stroke="currentColor" strokeWidth="1.2"/></svg>
@@ -261,10 +261,11 @@ const ACCENT_OPTS_P = [
 
 function PropertyApp() {
   const [t, setTweak] = useTweaks(window.__TWEAK_DEFAULTS__);
-  const [lang, setLangState] = useStateP(() => localStorage.getItem('ml-lang') || 'en');
+  const [lang, setLangState] = useStateP(() => window.getMLStoredLang ? window.getMLStoredLang() : 'en');
   const setLang = (nextLang) => {
+    if (nextLang !== 'es' && nextLang !== 'en') return;
     setLangState(nextLang);
-    localStorage.setItem('ml-lang', nextLang);
+    window.setMLStoredValue?.('ml-lang', nextLang);
   };
 
   useEffectP(() => {
@@ -292,17 +293,17 @@ function PropertyApp() {
   };
 
   return (
-    <MLLangContext.Provider value={{ lang, setLang, copy: ML_COPY[lang] }}>
-      <TopBar />
-      <PropertyBreadcrumb />
-      <PropertyHeroGallery />
-      <PropertyOverview />
-      <Description />
-      <FeaturesGrid />
-      <FloorMap />
-      <ContactForm />
-      <SimilarProps />
-      <Footer />
+    <MLLangContext.Provider value={{ lang, setLang, copy: ML_COPY[lang] || ML_COPY.en }}>
+      <ErrorBoundary label="Top Bar"><TopBar /></ErrorBoundary>
+      <ErrorBoundary label="Breadcrumb"><PropertyBreadcrumb /></ErrorBoundary>
+      <ErrorBoundary label="Galería"><PropertyHeroGallery /></ErrorBoundary>
+      <ErrorBoundary label="Resumen"><PropertyOverview /></ErrorBoundary>
+      <ErrorBoundary label="Descripción"><Description /></ErrorBoundary>
+      <ErrorBoundary label="Características"><FeaturesGrid /></ErrorBoundary>
+      <ErrorBoundary label="Plano y mapa"><FloorMap /></ErrorBoundary>
+      <ErrorBoundary label="Contacto"><ContactForm /></ErrorBoundary>
+      <ErrorBoundary label="Propiedades similares"><SimilarProps /></ErrorBoundary>
+      <ErrorBoundary label="Footer"><Footer /></ErrorBoundary>
       <WhatsFloat />
 
       <TweaksPanel title="Tweaks">

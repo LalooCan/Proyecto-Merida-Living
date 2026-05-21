@@ -2,6 +2,7 @@
 // Las galerías de fotos viven en listings.js (IMAGE_MAP).
 
 const PROPERTY_IMAGE_MAP = (window.ML_LISTINGS && window.ML_LISTINGS.IMAGE_MAP) || {};
+const PROPERTY_COVER_IMAGES = (window.ML_LISTINGS && window.ML_LISTINGS.COVER_IMAGES) || {};
 
 
 const PROPERTY_DETAIL_DEFAULTS = {
@@ -21,7 +22,9 @@ function getSelectedProperty() {
     const fullCode = `mld-${p.code}`.toLowerCase();
     return p.id.toLowerCase() === requested || p.code.toLowerCase() === requested || fullCode === requested;
   }) || fallback;
-  const gallery = PROPERTY_IMAGE_MAP[listing.id] || PROPERTY_IMAGE_MAP["P-01"];
+  const listingGallery = PROPERTY_IMAGE_MAP[listing.id] || [];
+  const fallbackCover = PROPERTY_COVER_IMAGES[listing.id] || "";
+  const gallery = listingGallery.length ? listingGallery : (fallbackCover ? [fallbackCover] : []);
 
   return {
     ...PROPERTY_DETAIL_DEFAULTS,
@@ -30,7 +33,7 @@ function getSelectedProperty() {
     rawCode: listing.code,
     badge: listing.badge || null,
     gallery,
-    cover: gallery[0],
+    cover: gallery[0] || fallbackCover || "",
   };
 }
 
@@ -85,7 +88,7 @@ function getPropertyWhatsAppUrl() {
 }
 
 function saveProperty() {
-  localStorage.setItem(`ml-saved-${PROPERTY.code}`, "true");
+  window.setMLStoredValue?.(`ml-saved-${PROPERTY.code}`, "true");
 }
 
 function shareProperty() {
@@ -139,13 +142,31 @@ function HeroGallery() {
   const [hero, g2, g3, g4, g5] = gallery;
   const [open, setOpen] = React.useState(false);
   const [active, setActive] = React.useState(0);
+  const thumbsRef = React.useRef(null);
+  const drag = React.useRef({ on: false, startX: 0, scrollLeft: 0 });
+  const onThumbDown = (e) => {
+    const el = thumbsRef.current; if (!el) return;
+    drag.current = { on: true, startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft };
+    el.style.cursor = 'grabbing';
+  };
+  const onThumbMove = (e) => {
+    if (!drag.current.on) return;
+    const el = thumbsRef.current; if (!el) return;
+    e.preventDefault();
+    el.scrollLeft = drag.current.scrollLeft - (e.pageX - el.offsetLeft - drag.current.startX);
+  };
+  const onThumbUp = () => { drag.current.on = false; if (thumbsRef.current) thumbsRef.current.style.cursor = ''; };
   const moreCount = Math.max(0, gallery.length - 5);
   const showPhoto = (index) => {
+    if (!gallery.length) return;
     const next = (index + gallery.length) % gallery.length;
     setActive(next);
     setOpen(true);
   };
-  const move = (step) => setActive((current) => (current + step + gallery.length) % gallery.length);
+  const move = (step) => {
+    if (!gallery.length) return;
+    setActive((current) => (current + step + gallery.length) % gallery.length);
+  };
 
   React.useEffect(() => {
     if (!open) return undefined;
@@ -201,12 +222,12 @@ function HeroGallery() {
           <div className="gallery-backdrop" onClick={() => setOpen(false)}></div>
           <div className="gallery-shell">
             <div className="gallery-top">
-              <div>
-                <div className="gallery-kicker">{PROPERTY.code}</div>
-                <div className="gallery-title">{PROPERTY.name}</div>
+              <div className="gallery-header-inline">
+                <span className="gallery-kicker">{PROPERTY.code}</span>
+                <span className="gallery-title">{PROPERTY.name}</span>
               </div>
               <div className="gallery-count">{active + 1} / {gallery.length}</div>
-              <button className="gallery-close" type="button" onClick={() => setOpen(false)} aria-label="Close gallery">x</button>
+              <button className="gallery-close" type="button" onClick={() => setOpen(false)} aria-label="Close gallery">×</button>
             </div>
             <div className="gallery-stage">
               <button className="gallery-arrow prev" type="button" onClick={() => move(-1)} aria-label="Previous image">
@@ -217,7 +238,9 @@ function HeroGallery() {
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </button>
             </div>
-            <div className="gallery-thumbs">
+            <div className="gallery-thumbs" ref={thumbsRef}
+              onMouseDown={onThumbDown} onMouseMove={onThumbMove}
+              onMouseUp={onThumbUp} onMouseLeave={onThumbUp}>
               {gallery.map((src, i) => (
                 <button className={i === active ? "on" : ""} type="button" key={src} onClick={() => setActive(i)} aria-label={`Image ${i + 1}`}>
                   <img src={src} alt="" />
@@ -235,7 +258,7 @@ function HeroGallery() {
 function Overview() {
   const { copy } = useMLLang();
   const { data } = useMLData();
-  const langProp = data.PROPERTIES.find(p => p.code === PROPERTY.rawCode) || data.PROPERTIES[0];
+  const langProp = data.PROPERTIES.find(p => p.code === PROPERTY.rawCode) || data.PROPERTIES[0] || {};
   return (
     <section data-screen-label="Resumen de la propiedad">
       <div className="container ov-wrap">
